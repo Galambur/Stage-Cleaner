@@ -50,7 +50,6 @@ class cleaner(QWidget):
         clean.activateWindow() ## met le widget au premier plan
         
     def nettoyer_un(self, on):
-        print('un')
         self.iface = iface
         layer = iface.activeLayer()
         
@@ -60,11 +59,9 @@ class cleaner(QWidget):
         if ok and item:
             field_to_clean = item
             self.close()
-            print(field_to_clean)
             cleaning_one(field_to_clean, layer)
             
     def nettoyer_tous(self, on):
-        print('tous')
         self.iface = iface
         layer = iface.activeLayer()
         all_fields = layer.fields()
@@ -75,60 +72,65 @@ class cleaner(QWidget):
 clean = cleaner()
 clean.show()
 
-
 def cleaning_one(field_to_clean, layer):
     layer = iface.activeLayer()
 
     print('cleaning one field...')  
+    iface.messageBar().pushMessage('Nettoyage du champ...')
     with edit (layer):
         for feature in layer.getFeatures():
-            value = str(feature[field_to_clean])
-            value = value.replace('Å“', 'œ')
-            value = value.replace("Å’", 'Œ')
-            value = value.replace('Ã€', 'À')
-            value = value.replace('Ã', 'Ã')
-            value = value.replace('Ã†', 'Æ')
-            value = value.replace('Ã‡', 'Ç')
-            value = value.replace('Ãˆ', 'È')
-            value = value.replace('Ã‰', 'É')
-            value = value.replace('ÃŠ', 'Ê')
-            value = value.replace('Ã‹', 'Ë')
-            value = value.replace('Ã¢', 'â')
-            value = value.replace('Ã¡', 'Ã')
-            value = value.replace('Ã¢', 'â')
-            value = value.replace('Ã¤', 'ä')
-            value = value.replace('Ã¦', 'æ')
-            value = value.replace('Ã¨', 'è')
-            value = value.replace('Ãª', 'ê')
-            value = value.replace('Ã«', 'ë')
-            value = value.replace('Ã¬', 'ì')
-            value = value.replace('Ã®', 'î')
-            value = value.replace('Ã¹', 'ù')
-            value = value.replace('Ãº', 'ú')
-            value = value.replace('Ã»', 'û')
-            value = value.replace('Ã§', 'ç')
-            value = value.replace('Ã±', 'ñ')
-            value = value.replace('Ã´', 'ô')
-            value = value.replace('Ã²', 'ò')
-            value = value.replace('Ã³', 'ó')
-            value = value.replace('Ã©', 'é')
-            value = value.replace('Ã©', 'é')
-            value = value.replace('Â©', '©')
-            #print(value)
-            feature.setAttribute(feature.fieldNameIndex(field_to_clean), value)        
-            layer.updateFeature(feature)
+            if feature[field_to_clean].isdigit() == False:
+                value = str(feature[field_to_clean])
+                value = value.replace('Å“', 'œ')
+                value = value.replace("Å’", 'Œ')
+                value = value.replace('Ã€', 'À')
+                value = value.replace('Ã', 'Ã')
+                value = value.replace('Ã†', 'Æ')
+                value = value.replace('Ã‡', 'Ç')
+                value = value.replace('Ãˆ', 'È')
+                value = value.replace('Ã‰', 'É')
+                value = value.replace('ÃŠ', 'Ê')
+                value = value.replace('Ã‹', 'Ë')
+                value = value.replace('Ã¢', 'â')
+                value = value.replace('Ã¡', 'Ã')
+                value = value.replace('Ã¢', 'â')
+                value = value.replace('Ã¤', 'ä')
+                value = value.replace('Ã¦', 'æ')
+                value = value.replace('Ã¨', 'è')
+                value = value.replace('Ãª', 'ê')
+                value = value.replace('Ã«', 'ë')
+                value = value.replace('Ã¬', 'ì')
+                value = value.replace('Ã®', 'î')
+                value = value.replace('Ã¹', 'ù')
+                value = value.replace('Ãº', 'ú')
+                value = value.replace('Ã»', 'û')
+                value = value.replace('Ã§', 'ç')
+                value = value.replace('Ã±', 'ñ')
+                value = value.replace('Ã´', 'ô')
+                value = value.replace('Ã²', 'ò')
+                value = value.replace('Ã³', 'ó')
+                value = value.replace('Ã©', 'é')
+                value = value.replace('Ã©', 'é')
+                value = value.replace('Â©', '©')
+                #print(value)
+                feature.setAttribute(feature.fieldNameIndex(field_to_clean), value)        
+                layer.updateFeature(feature)
+            else : 
+                continue
     print('cleaned!')
+    iface.messageBar().pushSuccess('Succès', 'Le champ a été nettoyé !')
     
 def cleaning_all(field_to_clean, layer):
     layer = iface.activeLayer()
 
     print('cleaning all fields...')  
+    iface.messageBar().pushMessage('Nettoyage de tous les champs...')
     with edit (layer):
         prov = layer.dataProvider()
         for field_name in field_to_clean:
             print('cleaning ',field_name)
-            for field in prov.fields():
-                for feature in layer.getFeatures():
+            for feature in layer.getFeatures():
+                if str(feature).isdigit() == False:
                     value = str(feature[field_name])
                     value = value.replace('Å“', 'œ')
                     value = value.replace("Å’", 'Œ')
@@ -166,3 +168,4 @@ def cleaning_all(field_to_clean, layer):
                     layer.updateFeature(feature)
             print('finished cleaning ', field_name)
     print('cleaned!')
+    iface.messageBar().pushSuccess('Succès', 'Nettoyage réussi !')
