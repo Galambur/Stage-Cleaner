@@ -10,7 +10,7 @@ about=Avant tout, il faut sélectionner une couche manuellement.
    <li>nettoyer un seul champ (on peut choisir lequel dans un menu 
    déroulant avec tous les champs de la couche)</li></ul>
 
-version=2.0
+version=1.4
 qgisMinimumVersion=3.0
 author=Gaëlle Derambure
 email=gaelle.derambure@cdc-habitat.fr
