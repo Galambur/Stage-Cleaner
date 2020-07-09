@@ -35,14 +35,14 @@ class cleaner(QWidget):
             
     def initGui(self):
       icon = os.path.join(os.path.join(cmd_folder, 'logo.jpg'))
-      self.action = QAction(QIcon(icon), 'Cleaner', self.iface.mainWindow())
+      self.action = QAction(QIcon(icon), 'Nettoyeur de caractères spéciaux', self.iface.mainWindow())
       self.action.triggered.connect(self.run)
-      self.iface.addPluginToMenu('&Cleaner', self.action)
+      self.iface.addPluginToMenu('&Nettoyeur de caractères spéciaux', self.action)
       self.iface.addToolBarIcon(self.action)
 
     def unload(self):
       self.iface.removeToolBarIcon(self.action)
-      self.iface.removePluginMenu('Cleaner', self.action)  
+      self.iface.removePluginMenu('Nettoyeur de caractères spéciaux', self.action)  
       del self.action
         
     def run(self):        
@@ -70,12 +70,11 @@ class cleaner(QWidget):
         cleaning_all(fields_to_clean, layer)
         
 clean = cleaner()
-clean.show()
 
 def cleaning_one(field_to_clean, layer):
     layer = iface.activeLayer()
 
-    print('cleaning one field...')  
+    #print('cleaning one field...')  
     iface.messageBar().pushMessage('Nettoyage du champ...')
     with edit (layer):
         for feature in layer.getFeatures():
@@ -112,23 +111,23 @@ def cleaning_one(field_to_clean, layer):
                 value = value.replace('Ã©', 'é')
                 value = value.replace('Ã©', 'é')
                 value = value.replace('Â©', '©')
-                #print(value)
+                ##print(value)
                 feature.setAttribute(feature.fieldNameIndex(field_to_clean), value)        
                 layer.updateFeature(feature)
             else : 
                 continue
-    print('cleaned!')
+    #print('cleaned!')
     iface.messageBar().pushSuccess('Succès', 'Le champ a été nettoyé !')
     
 def cleaning_all(field_to_clean, layer):
     layer = iface.activeLayer()
 
-    print('cleaning all fields...')  
+    #print('cleaning all fields...')  
     iface.messageBar().pushMessage('Nettoyage de tous les champs...')
     with edit (layer):
         prov = layer.dataProvider()
         for field_name in field_to_clean:
-            print('cleaning ',field_name)
+            #print('cleaning ',field_name)
             for feature in layer.getFeatures():
                 if str(feature).isdigit() == False:
                     value = str(feature[field_name])
@@ -163,9 +162,9 @@ def cleaning_all(field_to_clean, layer):
                     value = value.replace('Ã©', 'é')
                     value = value.replace('Ã©', 'é')
                     value = value.replace('Â©', '©')
-                    #print(value)
+                    ##print(value)
                     feature.setAttribute(feature.fieldNameIndex(field_name), value)        
                     layer.updateFeature(feature)
-            print('finished cleaning ', field_name)
-    print('cleaned!')
+            #print('finished cleaning ', field_name)
+    #print('cleaned!')
     iface.messageBar().pushSuccess('Succès', 'Nettoyage réussi !')
