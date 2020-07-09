@@ -1,0 +1,16 @@
+[general]
+name=Nettoyeur de caractères 
+   spéciaux
+description=Impératif : sélectionner une couche avant de lancer 
+   le programme.
+
+about=Avant tout, il faut sélectionner une couche manuellement. 
+   Ensuite, on peut choisir de : 
+   <ul><li>nettoyer tous les champs de cette couche</li>
+   <li>nettoyer un seul champ (on peut choisir lequel dans un menu 
+   déroulant avec tous les champs de la couche)</li></ul>
+
+version=2.0
+qgisMinimumVersion=3.0
+author=Gaëlle Derambure
+email=gaelle.derambure@cdc-habitat.fr
